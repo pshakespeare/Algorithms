@@ -7,24 +7,26 @@
 
 
 class Solution:
-
+    visited = set()
     def find_islands(self,grid):
         if not grid:
             return 0
 
         ROW, COL = len(grid), len(grid[0])
+        
         count = 0
 
         for r in range(ROW):
             for c in range(COL):
-                if(grid[r][c] == "1"):
+                if(grid[r][c] == "1" and (r,c) not in self.visited):
                     self.island_finder(grid, r, c)
                     count += 1
         return count           
     def island_finder(self,grid, i, j):
-        if( i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or grid[i][j] != "1"):
+        if( i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or grid[i][j] != "1" or (i,j) in self.visited):
             return
-        grid[i][j] = '#'
+            
+        self.visited.add((i,j))
         self.island_finder(grid, i + 1, j)
         self.island_finder(grid, i - 1, j)
         self.island_finder(grid, i , j + 1)
